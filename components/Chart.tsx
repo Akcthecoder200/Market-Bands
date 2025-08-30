@@ -97,30 +97,74 @@ export default function Chart({
     };
   }, [data]);
 
-  // Update data when it changes
+  // Update Bollinger Bands when options or data change
   useEffect(() => {
-    if (chartInstanceRef.current && data.length > 0) {
-      const klineData = data.map((d) => ({
-        timestamp: d.time,
-        open: d.open,
-        high: d.high,
-        low: d.low,
-        close: d.close,
-        volume: d.volume || 0,
-      }));
-      chartInstanceRef.current.applyNewData(klineData);
-    }
-  }, [data]);
+    if (!chartInstanceRef.current || data.length === 0) return;
 
-  // Compute Bollinger Bands when options change
-  useEffect(() => {
-    if (bollingerOptions && data.length > 0) {
-      const bands = computeBollingerBands(data, bollingerOptions);
-      setBollingerData(bands);
+    const chart = chartInstanceRef.current;
+
+    // Apply new candlestick data
+    const klineData = data.map((d) => ({
+      timestamp: d.time,
+      open: d.open,
+      high: d.high,
+      low: d.low,
+      close: d.close,
+      volume: d.volume || 0,
+    }));
+
+    chart.applyNewData(klineData);
+
+    // Calculate and apply Bollinger Bands if options are provided
+    if (bollingerOptions) {
+      const bollingerBands = computeBollingerBands(data, bollingerOptions);
+      setBollingerData(bollingerBands);
+
+      // Remove existing Bollinger Bands indicator if it exists
+      chart.removeIndicator({ name: "BOLL" });
+
+      // Create Bollinger Bands indicator
+      chart.createIndicator(
+        {
+          name: "BOLL",
+          calcParams: [
+            bollingerOptions.length,
+            bollingerOptions.stdDevMultiplier,
+          ],
+          styles: {
+            lines: [
+              {
+                color: bollingerStyle?.upper.color || "#3b82f6",
+                size: bollingerStyle?.upper.lineWidth || 1,
+                // style: "solid",
+                smooth: false,
+                dashedValue: [],
+              },
+              {
+                color: bollingerStyle?.basis.color || "#fbbf24",
+                size: bollingerStyle?.basis.lineWidth || 1,
+
+                smooth: false,
+                dashedValue: [],
+              },
+              {
+                color: bollingerStyle?.lower.color || "#3b82f6",
+                size: bollingerStyle?.lower.lineWidth || 1,
+
+                smooth: false,
+                dashedValue: [],
+              },
+            ],
+          },
+        },
+        false
+      ); // false = don't stack, overlay on main pane
     } else {
+      // Remove Bollinger Bands if no options provided
+      chart.removeIndicator({ name: "BOLL" });
       setBollingerData([]);
     }
-  }, [data, bollingerOptions]);
+  }, [data, bollingerOptions, bollingerStyle]);
 
   return (
     <div className="relative">
@@ -137,11 +181,13 @@ export default function Chart({
             Bollinger Bands ({bollingerOptions.length})
           </div>
           <div className="space-y-1">
-            {bollingerStyle?.upper.visible && (
+            {bollingerStyle?.upper.visible !== false && (
               <div className="flex items-center space-x-2">
                 <div
                   className="w-3 h-0.5"
-                  style={{ backgroundColor: bollingerStyle.upper.color }}
+                  style={{
+                    backgroundColor: bollingerStyle?.upper.color || "#3b82f6",
+                  }}
                 />
                 <span>
                   Upper:{" "}
@@ -150,11 +196,13 @@ export default function Chart({
                 </span>
               </div>
             )}
-            {bollingerStyle?.basis.visible && (
+            {bollingerStyle?.basis.visible !== false && (
               <div className="flex items-center space-x-2">
                 <div
                   className="w-3 h-0.5"
-                  style={{ backgroundColor: bollingerStyle.basis.color }}
+                  style={{
+                    backgroundColor: bollingerStyle?.basis.color || "#fbbf24",
+                  }}
                 />
                 <span>
                   Basis:{" "}
@@ -163,11 +211,13 @@ export default function Chart({
                 </span>
               </div>
             )}
-            {bollingerStyle?.lower.visible && (
+            {bollingerStyle?.lower.visible !== false && (
               <div className="flex items-center space-x-2">
                 <div
                   className="w-3 h-0.5"
-                  style={{ backgroundColor: bollingerStyle.lower.color }}
+                  style={{
+                    backgroundColor: bollingerStyle?.lower.color || "#3b82f6",
+                  }}
                 />
                 <span>
                   Lower:{" "}
