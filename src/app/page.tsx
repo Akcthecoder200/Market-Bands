@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Chart from "../../components/Chart";
 import BollingerSettings from "../../components/BollingerSettings";
 import Modal from "../../components/Modal";
@@ -76,7 +77,19 @@ export default function Home() {
       {/* Header */}
       <header className="bg-gray-800 border-b border-gray-700 p-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Bollinger Bands Chart</h1>
+          <div className="flex items-center space-x-3">
+            <Image
+              src="/assets/logo_trade.svg"
+              alt="LT Trade Logo"
+              width={40}
+              height={40}
+              className="rounded-full"
+            />
+            <div>
+              <h1 className="text-2xl font-bold text-white">LT Trade</h1>
+              <p className="text-sm text-gray-400">Bollinger Bands Chart</p>
+            </div>
+          </div>
           <div className="flex items-center space-x-4">
             {!showBollinger && (
               <button
