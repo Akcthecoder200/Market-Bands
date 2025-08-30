@@ -103,18 +103,16 @@ This implementation uses **Population Standard Deviation** (dividing by N) rathe
 ## 📈 Screenshots
 
 ### Main Chart Interface
-*Screenshot showing the candlestick chart with Bollinger Bands overlay and control panel*
+![Main Chart with Bollinger Bands](./assets/chart.png)
+*Candlestick chart with Bollinger Bands overlay and control panel*
 
 ### Settings Modal - Inputs Tab
-*Screenshot of the settings modal showing parameter configuration options*
+![Settings Inputs Tab](./assets/settings-inputs.png)
+*Settings modal showing parameter configuration options (length, multiplier, offset)*
 
-### Settings Modal - Style Tab  
-*Screenshot of the style configuration tab with color pickers and visibility controls*
-
-> **Note**: Add actual screenshots here by taking screenshots of:
-> 1. The main chart with Bollinger Bands enabled
-> 2. The settings modal opened to the "Inputs" tab
-> 3. The settings modal opened to the "Style" tab
+### Settings Modal - Style Tab
+![Settings Style Tab](./assets/settings-style.png)
+*Style configuration tab with color pickers, line width controls, and visibility toggles*
 
 ## ⚡ Performance Notes
 
