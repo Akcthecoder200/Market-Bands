@@ -2,17 +2,7 @@
 
 A production-ready Next.js application implementing Bollinger Bands indicator overlay on candlestick charts using KLineCharts library.
 
-## Features
-
-- **Interactive Candlestick Chart**: Real-time responsive charting with KLineCharts
-- **Bollinger Bands Indicator**: Complete implementation with configurable parameters
-- **TradingView-style Settings**: Inputs and Style configuration panels
-- **Real-time Updates**: Instant chart updates when changing parameters
-- **TypeScript**: Fully type-safe implementation
-- **TailwindCSS**: Modern, responsive UI design
-- **200+ Sample Candles**: Realistic OHLCV data for demonstration
-
-## Setup & Installation
+## 🚀 Quick Start
 
 ```bash
 # Install dependencies
@@ -24,7 +14,62 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Project Structure
+## 📋 Features
+
+- **Interactive Candlestick Chart**: Real-time responsive charting with KLineCharts
+- **Bollinger Bands Indicator**: Complete implementation with configurable parameters
+- **TradingView-style Settings**: Inputs and Style configuration panels
+- **Real-time Updates**: Instant chart updates when changing parameters
+- **TypeScript**: Fully type-safe implementation
+- **TailwindCSS**: Modern, responsive UI design
+- **200+ Sample Candles**: Realistic OHLCV data for demonstration
+
+## 📊 Bollinger Bands Implementation
+
+### Mathematical Formula
+
+The implementation uses the following formulas:
+
+- **Basis (Middle Band)**: `SMA(close, length)`
+- **Standard Deviation**: **Population standard deviation** `sqrt(sum((x-mean)²)/N)`
+- **Upper Band**: `basis + (multiplier × stdDev)`
+- **Lower Band**: `basis - (multiplier × stdDev)`
+- **Offset**: Shifts all bands forward/backward by N periods
+
+### 📐 Standard Deviation Variant Used
+
+This implementation uses **Population Standard Deviation** (dividing by N) rather than sample standard deviation (dividing by N-1). 
+
+**Why Population StdDev?**
+- Consistent with most trading platforms (TradingView, MetaTrader, etc.)
+- Provides more conservative band width
+- Industry standard for financial technical analysis
+- Results in tighter bands which are generally preferred for trading signals
+
+### Configuration Parameters
+
+#### Inputs (Default Values)
+- **Length**: 20 periods
+- **MA Type**: SMA (Simple Moving Average) - only type implemented
+- **Source**: Close price - only source implemented  
+- **StdDev Multiplier**: 2.0
+- **Offset**: 0 (no shift)
+
+#### Style Settings
+- **Basis Line**: Color, width, style (solid/dashed), visibility
+- **Upper Band**: Color, width, style (solid/dashed), visibility  
+- **Lower Band**: Color, width, style (solid/dashed), visibility
+- **Background Fill**: Opacity control, visibility toggle
+
+## 🛠️ Technology Stack
+
+- **Next.js 15.5.2**: React framework with App Router
+- **TypeScript 5**: Type-safe development
+- **TailwindCSS 4**: Utility-first CSS framework
+- **KLineCharts 10.0.0-alpha5**: Professional charting library
+- **React 19.1.0**: Latest React features
+
+## 📦 Project Structure
 
 ```
 ├── components/
@@ -44,97 +89,100 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 └── README.md                 # This file
 ```
 
-## Bollinger Bands Implementation
-
-### Formula
-
-The implementation uses the following formulas:
-
-- **Basis (Middle Band)**: `SMA(close, length)`
-- **Standard Deviation**: Population standard deviation `sqrt(sum((x-mean)²)/N)`
-- **Upper Band**: `basis + (multiplier × stdDev)`
-- **Lower Band**: `basis - (multiplier × stdDev)`
-- **Offset**: Shifts all bands forward/backward by N periods
-
-### Why Population Standard Deviation?
-
-This implementation uses **population standard deviation** (dividing by N) rather than sample standard deviation (dividing by N-1). This is consistent with most trading platforms and provides more conservative band width, which is generally preferred for trading applications.
-
-### Configuration Options
-
-#### Inputs (Defaults)
-- **Length**: 20 periods
-- **MA Type**: SMA (Simple Moving Average)
-- **Source**: Close price
-- **StdDev Multiplier**: 2.0
-- **Offset**: 0 (no shift)
-
-#### Style Settings
-- **Basis Line**: Color, width, style (solid/dashed), visibility
-- **Upper Band**: Color, width, style (solid/dashed), visibility  
-- **Lower Band**: Color, width, style (solid/dashed), visibility
-- **Background Fill**: Opacity control, visibility toggle
-
-## Usage
+## 🎯 Usage Guide
 
 1. **View Chart**: Candlestick chart loads automatically with sample data
-2. **Add Indicator**: Click "Add Bollinger Bands" button
-3. **Configure Settings**: Use the settings modal to adjust parameters
-4. **Real-time Updates**: Changes apply instantly to the chart
-5. **Visual Feedback**: Hover to see band values in the info overlay
+2. **Toggle Indicator**: Click "Show Bollinger Bands" checkbox to enable/disable
+3. **Configure Settings**: Click the settings icon to open configuration modal
+4. **Adjust Parameters**: 
+   - **Inputs Tab**: Change length, multiplier, and offset
+   - **Style Tab**: Customize colors, line width, and visibility
+5. **Real-time Updates**: Changes apply instantly to the chart
+6. **Visual Feedback**: View current band values in the top-left info panel
 
-## Technology Stack
+## 📈 Screenshots
 
-- **Next.js 15**: React framework with App Router
-- **TypeScript**: Type-safe development
-- **TailwindCSS**: Utility-first CSS framework
-- **KLineCharts**: Professional charting library
-- **React 18**: Latest React features
+### Main Chart Interface
+*Screenshot showing the candlestick chart with Bollinger Bands overlay and control panel*
 
-## Dependencies
+### Settings Modal - Inputs Tab
+*Screenshot of the settings modal showing parameter configuration options*
 
-```json
-{
-  "klinecharts": "^10.x.x",
-  "clsx": "^2.x.x"
-}
-```
+### Settings Modal - Style Tab  
+*Screenshot of the style configuration tab with color pickers and visibility controls*
 
-**KLineCharts Version**: Check `package.json` for exact version used.
+> **Note**: Add actual screenshots here by taking screenshots of:
+> 1. The main chart with Bollinger Bands enabled
+> 2. The settings modal opened to the "Inputs" tab
+> 3. The settings modal opened to the "Style" tab
 
-## Performance Notes
+## ⚡ Performance Notes
 
 - Optimized for 200-1000 candles
 - O(N × window) complexity for band calculation
 - Efficient React re-rendering with proper memoization
 - Smooth interactions with instant parameter updates
 
-## Known Limitations
+## 🔧 Technical Details
 
-- **Overlay Integration**: Current implementation shows computed values in console and info panel. Full visual overlay integration with KLineCharts would require deeper integration with their custom overlay API
+### KLineCharts Version
+**Version**: 10.0.0-alpha5
+
+This version provides:
+- Built-in BOLL (Bollinger Bands) indicator
+- Modern React integration
+- TypeScript support
+- Customizable chart styling
+
+### Core Calculation Logic
+
+```typescript
+// Population standard deviation formula used
+const variance = window.reduce((s, v) => s + Math.pow(v - mean, 2), 0) / length;
+const sd = Math.sqrt(variance);
+
+// Band calculations
+const basis = mean;
+const upper = basis + stdDevMultiplier * sd;
+const lower = basis - stdDevMultiplier * sd;
+```
+
+## 🚧 Known Limitations
+
 - **Single Timeframe**: Demo uses daily candles only
-- **Basic Tooltips**: Custom crosshair values would need additional KLineCharts configuration
+- **Basic Data**: Static sample data rather than live feeds
+- **MA Type**: Only SMA implemented (as specified in requirements)
+- **Source**: Only close price supported (as specified in requirements)
 
-## Trade-offs Made
+## 🔮 Future Enhancements
 
-1. **Simplified Overlay**: Focused on core calculation logic and UI rather than complex KLineCharts overlay rendering
-2. **Population StdDev**: Chose consistency with trading platforms over statistical correctness
-3. **Static Data**: Used pre-generated OHLCV for demo rather than live data feeds
-4. **Basic Error Handling**: Minimal error states to focus on core functionality
-
-## Future Enhancements
-
-- Full visual overlay integration with KLineCharts
 - Multiple timeframe support
-- Live data integration
-- Additional technical indicators
+- Live data integration via WebSocket
+- Additional moving average types (EMA, WMA)
+- More technical indicators
 - Export/import settings functionality
-- Advanced tooltip customization
+- Advanced charting features
 
-## Screenshots
+## 🐛 Troubleshooting
 
-*Placeholder: Add screenshots of the application showing the chart, settings modal, and Bollinger Bands overlay*
+### Common Issues
 
-## License
+1. **Chart not loading**: Ensure all dependencies are installed with `npm install`
+2. **Bollinger Bands not visible**: Check if the indicator is enabled via the checkbox
+3. **Settings not applying**: Verify that you clicked "Apply" in the settings modal
+4. **Build errors**: Run `npm run build` to check for TypeScript errors
+
+### Debug Information
+
+The application logs calculation results to the browser console. Open Developer Tools → Console to see:
+- Bollinger Bands calculation results
+- Chart initialization status
+- Parameter update confirmations
+
+## 📄 License
 
 MIT License - see LICENSE file for details.
+
+---
+
+**Built with ❤️ using Next.js and KLineCharts**
