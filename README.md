@@ -103,15 +103,15 @@ This implementation uses **Population Standard Deviation** (dividing by N) rathe
 ## 📈 Screenshots
 
 ### Main Chart Interface
-![Main Chart with Bollinger Bands](./assets/chart.png)
+![Main Chart with Bollinger Bands](./public/assets/chart.png)
 *Candlestick chart with Bollinger Bands overlay and control panel*
 
 ### Settings Modal - Inputs Tab
-![Settings Inputs Tab](./assets/settings-inputs.png)
+![Settings Inputs Tab](./public/assets/settings-inputs.png)
 *Settings modal showing parameter configuration options (length, multiplier, offset)*
 
 ### Settings Modal - Style Tab
-![Settings Style Tab](./assets/settings-style.png)
+![Settings Style Tab](./public/assets/settings-style.png)
 *Style configuration tab with color pickers, line width controls, and visibility toggles*
 
 ## ⚡ Performance Notes
